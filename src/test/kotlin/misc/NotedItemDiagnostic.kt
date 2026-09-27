@@ -1,5 +1,6 @@
-package cache
+package misc
 
+import cache.TestCache
 import cache.decode.ItemJs5Archive
 import com.displee.cache.CacheLibrary
 import kotlin.test.Test

@@ -116,7 +116,7 @@ private fun ItemList(tab: ItemTab, modifier: Modifier) {
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         Text(item.id.toString(), Modifier.width(48.dp), fontFamily = FontFamily.Monospace, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text(item.name, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(item.displayName, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Text(
                             buildString {
                                 append("cost ${item.cost}")
@@ -264,6 +264,9 @@ private fun label(form: ItemForm, field: ItemField) = buildString {
     append(field.label)
     append(" - ")
     append(field.opcode)
+    if (form.isReadOnly(field)) {
+        append(" [read only]")
+    }
     if (form.edited(field)) {
         append(" *")
     }

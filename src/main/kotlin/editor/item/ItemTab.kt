@@ -61,12 +61,13 @@ class ItemTab(private val editor: CacheEditorState) : EditorTab {
     fun load(id: Int) = editor.launch("Failed to load item $id") {
         pendingSelection = null
         val type = access { it.load(id) } ?: throw IllegalStateException("Item $id doesn't exist")
-        form = ItemForm(type, isNew = false)
+        val derived = access { it.displayName(type) }
+        form = ItemForm(type, isNew = false, derivedName = derived)
     }
 
     fun revert() {
         val form = form ?: return
-        this.form = ItemForm(form.base, form.isNew)
+        this.form = ItemForm(form.base, form.isNew, form.derivedName)
     }
 
     fun save() = editor.launch("Failed to save") {
@@ -77,10 +78,11 @@ class ItemTab(private val editor: CacheEditorState) : EditorTab {
             return@launch
         }
         val (size, saved) = access { it.save(type) to it.load(type.id)!! }
-        this@ItemTab.form = ItemForm(saved, isNew = false)
-        val summary = ItemSummary(saved.id, saved.name, saved.members, saved.cost)
+        val derived = access { it.displayName(saved) }
+        this@ItemTab.form = ItemForm(saved, isNew = false, derivedName = derived)
+        val summary = ItemSummary(saved.id, saved.name, saved.members, saved.cost, derived ?: saved.name)
         items = (items.filter { it.id != saved.id } + summary).sortedBy { it.id }
-        editor.message("Saved item ${saved.id} '${saved.name}' ($size bytes)")
+        editor.message("Saved item ${saved.id} '${derived ?: saved.name}' ($size bytes)")
     }
 
     fun addParam(field: ItemField.Params, param: ParamInfo) {
@@ -108,9 +110,10 @@ class ItemTab(private val editor: CacheEditorState) : EditorTab {
         } else {
             ItemType(id).apply { name = "New item" }
         }
+        val derived = access { it.displayName(type) }
         showCreateDialog = false
         pendingSelection = null
-        form = ItemForm(type, isNew = true)
+        form = ItemForm(type, isNew = true, derivedName = derived)
     }
 
     private suspend fun <T> access(block: (ItemRepository) -> T): T {
