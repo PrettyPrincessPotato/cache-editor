@@ -35,7 +35,7 @@ object Js5 {
     const val SHADERS = 31
     const val LOADING_SPRITES = 32
     const val GAME_TIPS = 33
-    const val JAGEX_FONTS = 34 // Background images while client is loading
+    const val JAGEX_FONTS = 34
     const val CUTSCENES = 35
     const val VIDEOS = 36
 }

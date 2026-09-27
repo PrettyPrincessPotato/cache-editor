@@ -60,7 +60,7 @@ class CacheEditorUiTest {
             }
         }
         val tab = state.tabs.filterIsInstance<NpcTab>().single()
-        waitUntil(timeoutMillis = 30_000) { tab.npcs.isNotEmpty() }
+        waitUntil(timeoutMillis = 30_000) { tab.npcs.isNotEmpty() && !state.loading }
         val total = tab.npcs.size
         onNodeWithText("NPCs").assertIsSelected()
         onNodeWithText("$total of $total npcs").assertExists()
