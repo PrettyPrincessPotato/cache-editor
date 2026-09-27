@@ -37,3 +37,9 @@ tasks.test {
     val cachePath = findProperty("cachePath") as String? ?: "../2011Scape-2/cache"
     systemProperty("cache.path", file(cachePath).absolutePath)
 }
+
+// Scratch read-only tool for reverse-engineering the font wire format (see tools/FontDump.kt).
+tasks.register<JavaExec>("fontDump") {
+    mainClass.set("tools.FontDumpKt")
+    classpath = project.files(sourceSets.main.get().output, configurations.runtimeClasspath)
+}
