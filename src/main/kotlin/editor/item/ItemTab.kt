@@ -61,13 +61,13 @@ class ItemTab(private val editor: CacheEditorState) : EditorTab {
     fun load(id: Int) = editor.launch("Failed to load item $id") {
         pendingSelection = null
         val type = access { it.load(id) } ?: throw IllegalStateException("Item $id doesn't exist")
-        val derived = access { it.displayName(type) }
-        form = ItemForm(type, isNew = false, derivedName = derived)
+        val derived = access { it.derivedValues(type) }
+        form = ItemForm(type, isNew = false, derived = derived)
     }
 
     fun revert() {
         val form = form ?: return
-        this.form = ItemForm(form.base, form.isNew, form.derivedName)
+        this.form = ItemForm(form.base, form.isNew, form.derived)
     }
 
     fun save() = editor.launch("Failed to save") {
@@ -78,11 +78,11 @@ class ItemTab(private val editor: CacheEditorState) : EditorTab {
             return@launch
         }
         val (size, saved) = access { it.save(type) to it.load(type.id)!! }
-        val derived = access { it.displayName(saved) }
-        this@ItemTab.form = ItemForm(saved, isNew = false, derivedName = derived)
-        val summary = ItemSummary(saved.id, saved.name, saved.members, saved.cost, derived ?: saved.name)
+        val derived = access { it.derivedValues(saved) }
+        this@ItemTab.form = ItemForm(saved, isNew = false, derived = derived)
+        val summary = ItemSummary(saved.id, saved.name, saved.members, saved.cost, derived?.name ?: saved.name)
         items = (items.filter { it.id != saved.id } + summary).sortedBy { it.id }
-        editor.message("Saved item ${saved.id} '${derived ?: saved.name}' ($size bytes)")
+        editor.message("Saved item ${saved.id} '${derived?.name ?: saved.name}' ($size bytes)")
     }
 
     fun addParam(field: ItemField.Params, param: ParamInfo) {
@@ -110,10 +110,10 @@ class ItemTab(private val editor: CacheEditorState) : EditorTab {
         } else {
             ItemType(id).apply { name = "New item" }
         }
-        val derived = access { it.displayName(type) }
+        val derived = access { it.derivedValues(type) }
         showCreateDialog = false
         pendingSelection = null
-        form = ItemForm(type, isNew = true, derivedName = derived)
+        form = ItemForm(type, isNew = true, derived = derived)
     }
 
     private suspend fun <T> access(block: (ItemRepository) -> T): T {

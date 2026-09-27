@@ -11,12 +11,33 @@ import editor.npc.ParamInfo
 
 data class ItemSummary(val id: Int, val name: String, val members: Boolean, val cost: Int, val displayName: String)
 
-// Noted and lent items carry their real name as a runtime derivation (the client
-// derives it from a referenced item). We show that derived name with a " noted"/" lent"
-// suffix so the editor can tell them apart from the source item.
-fun ItemType.displayName(all: Map<Int, ItemType>): String? = when {
-    notedTemplateId != -1 -> (all[noteId]?.name ?: name) + " noted"
-    lendTemplateId != -1 -> (all[lendId]?.name ?: name) + " lent"
+// Noted and lent items carry their real values as a runtime derivation (the client
+// computes them from a referenced item + a template). We display those derived values
+// but always save the wire values, so the file stays byte-for-byte intact.
+// The derived Name carries a " noted"/" lent" suffix to tell it apart from the source.
+data class DerivedValues(val name: String, val cost: Int, val members: Boolean, val spriteScale: Int)
+
+fun ItemType.derivedValues(all: Map<Int, ItemType>): DerivedValues? = when {
+    notedTemplateId != -1 -> {
+        val source = all[noteId]
+        val template = all[notedTemplateId]
+        DerivedValues(
+            name = (source?.name ?: name) + " noted",
+            cost = source?.cost ?: cost,
+            members = source?.members ?: members,
+            spriteScale = template?.spriteScale ?: spriteScale,
+        )
+    }
+    lendTemplateId != -1 -> {
+        val source = all[lendId]
+        val template = all[lendTemplateId]
+        DerivedValues(
+            name = (source?.name ?: name) + " lent",
+            cost = 0,
+            members = source?.members ?: members,
+            spriteScale = template?.spriteScale ?: spriteScale,
+        )
+    }
     else -> null
 }
 
@@ -47,11 +68,11 @@ class ItemRepository(private val cache: CacheLibrary) {
 
     fun summaries(): List<ItemSummary> = catalog().items
 
-    fun displayName(type: ItemType): String? {
+    fun derivedValues(type: ItemType): DerivedValues? {
         if (allItems.isEmpty()) {
             allItems = loadAllItems()
         }
-        return type.displayName(allItems)
+        return type.derivedValues(allItems)
     }
 
     fun catalog(): ItemCatalog {
@@ -63,7 +84,7 @@ class ItemRepository(private val cache: CacheLibrary) {
                 usage.merge(key, 1, Int::plus)
             }
         }
-        val summaries = items.map { ItemSummary(it.id, it.name, it.members, it.cost, it.displayName(allItems) ?: it.name) }
+        val summaries = items.map { ItemSummary(it.id, it.name, it.members, it.cost, it.derivedValues(allItems)?.name ?: it.name) }
         val paramArchive = ParamJs5Archive(cache)
         val paramTypes = (0 until paramArchive.size()).mapNotNull { id -> decodeOrNull("param", id) { paramArchive.decode(id) } }.associateBy { it.id }
         val params = (paramTypes.keys + usage.keys)
