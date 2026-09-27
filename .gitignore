@@ -44,3 +44,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/.idea/.name
+/.idea/gradle.xml
+/.idea/kotlinc.xml
+/.idea/vcs.xml
