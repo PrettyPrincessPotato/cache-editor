@@ -1,0 +1,72 @@
+package cache.types
+
+import cache.Type
+
+class NpcType(override val id: Int) : Type(id) {
+    var models: IntArray? = null
+    var name: String = "null"
+    var size: Int = 1
+    val ops: Array<String?> = arrayOfNulls(5)
+    val membersOps: Array<String?> = arrayOfNulls(5)
+    var recolS: IntArray? = null
+    var recolD: IntArray? = null
+    var retexS: IntArray? = null
+    var retexD: IntArray? = null
+    var recolDPalette: IntArray? = null
+    var headModels: IntArray? = null
+    var displayOnMiniMap: Boolean = true
+    var combatLevel: Int = -1
+    var scaleH: Int = 128
+    var scaleV: Int = 128
+    var renderHighPriority: Boolean = false
+    var ambient: Int = 0
+    var diffusion: Int = 0
+    var headIcon: Int = -1
+    var yawSpeed: Int = 32
+    var multiNpcVarbit = -1
+    var multiNpcVarp = -1
+    var multiNpcs: IntArray? = null
+    var interactive: Boolean = true
+    var crawl: Boolean = true
+    var hasShadow: Boolean = true
+    var shadowOuterColour: Int = 0
+    var shadowInnerColour: Int = 0
+    var shadowOuterAlpha: Int = -96
+    var shadowInnerAlpha: Int = -16
+    var movementCapabilities: Int = 0
+    var translations: Array<IntArray?>? = null
+    var healthBarSprite: Int = -1
+    var height: Int = -1
+    var spawnDirection: Int = 4
+    var basId: Int = -1
+    var unknown128: Int = -1
+    var readySound: Int = -1
+    var crawlSound: Int = -1
+    var walkSound: Int = -1
+    var runSound: Int = -1
+    var soundRangeMax: Int = 0
+    var firstCursorOp: Int = -1
+    var firstCursor: Int = -1
+    var secondCursorOp: Int = -1
+    var secondCursor: Int = -1
+    var attackCursor: Int = -1
+    var mobilisingArmiesIcon: Int = -1
+    var timerbarSprite: Int = -1
+    var soundVolume: Int = 255
+    var isFollower: Boolean = false
+    var mapElement: Int = -1
+    var invisiblePriority: Boolean = false
+    var colourHue: Int = 0
+    var colourSaturation: Int = 0
+    var colourLightness: Int = 0
+    var colourScale: Int = 0
+    var mainOptionIndex: Int = -1
+    var quests: IntArray? = null
+    var vorbis: Boolean = false
+    var slayerType: Int = -1
+    var soundRateMin: Int = 256
+    var soundRateMax: Int = 256
+    var pickSizeShift: Int = 0
+    var soundRangeMin: Int = 0
+    val params: MutableMap<Int, Any> = linkedMapOf()
+}
