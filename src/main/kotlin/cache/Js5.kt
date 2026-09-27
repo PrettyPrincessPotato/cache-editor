@@ -1,7 +1,7 @@
 package cache
 
 object Js5 {
-    const val ANIMS = 0
+    const val ANIMS = 0 // the definitions for animation frames
     const val BASES = 1
     const val CONFIG = 2
     const val INTERFACES = 3
@@ -15,14 +15,14 @@ object Js5 {
     const val MIDI_JINGLES = 11
     const val CLIENTSCRIPTS = 12
     const val FONTMETRICS = 13
-    const val VORBIS = 14
+    const val VORBIS = 14 // Voices
     const val SOUND_EFFECTS_2 = 15
-    const val LOC = 16
+    const val GAMEOBJECTS = 16
     const val ENUM = 17
     const val NPC = 18
-    const val OBJ = 19
-    const val SEQ = 20
-    const val SPOT = 21
+    const val ITEMS = 19
+    const val SEQ = 20 // animations
+    const val SPOT = 21 // gfx
     const val CONFIG_STRUCT = 22
     const val WORLDMAPDATA = 23
     const val QUICKCHAT = 24
@@ -35,7 +35,7 @@ object Js5 {
     const val SHADERS = 31
     const val LOADING_SPRITES = 32
     const val GAME_TIPS = 33
-    const val JAGEX_FONTS = 34
+    const val JAGEX_FONTS = 34 // Background images while client is loading
     const val CUTSCENES = 35
     const val VIDEOS = 36
 }
