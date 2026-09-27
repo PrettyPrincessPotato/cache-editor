@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import editor.font.FontTab
 import editor.npc.NpcTab
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,7 @@ class CacheEditorState(
 
     val tabs: List<EditorTab> = listOf(
         NpcTab(this),
+        FontTab(this),
     )
     var selectedTab by mutableIntStateOf(0)
 
