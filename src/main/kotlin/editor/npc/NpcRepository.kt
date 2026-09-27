@@ -68,7 +68,7 @@ class NpcRepository(private val cache: CacheLibrary) {
 
     fun load(id: Int): NpcType? = archive.decode(id)
 
-    fun exists(id: Int): Boolean = cache.data(Js5.NPC, archive.group(id), archive.file(id)) != null
+    fun exists(id: Int): Boolean = cache.data(Js5.JS5_CONFIG_NPC.id, archive.group(id), archive.file(id)) != null
 
     fun nextFreeId(): Int = archive.size()
 
@@ -76,8 +76,8 @@ class NpcRepository(private val cache: CacheLibrary) {
 
     fun save(type: NpcType): Int {
         val data = NpcTypeEncoder.encode(type)
-        cache.put(Js5.NPC, archive.group(type.id), archive.file(type.id), data)
-        check(cache.index(Js5.NPC)?.update() == true) { "Failed to write npc index" }
+        cache.put(Js5.JS5_CONFIG_NPC.id, archive.group(type.id), archive.file(type.id), data)
+        check(cache.index(Js5.JS5_CONFIG_NPC.id)?.update() == true) { "Failed to write npc index" }
         return data.size
     }
 }

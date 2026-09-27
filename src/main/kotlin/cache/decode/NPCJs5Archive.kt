@@ -15,7 +15,7 @@ import util.gjstr
 
 class NPCJs5Archive(cache: CacheLibrary) : Js5Archive<NpcType>(cache) {
 
-    override fun archive(): Int = Js5.NPC
+    override fun archive(): Int = Js5.JS5_CONFIG_NPC.id
 
     override fun group(id: Int): Int = id ushr 7
 

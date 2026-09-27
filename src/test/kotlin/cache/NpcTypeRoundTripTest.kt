@@ -26,7 +26,7 @@ class NpcTypeRoundTripTest {
         var count = 0
         var identical = 0
         for (id in 0 until size) {
-            val data = cache.data(Js5.NPC, archive.group(id), archive.file(id)) ?: continue
+            val data = cache.data(Js5.JS5_CONFIG_NPC.id, archive.group(id), archive.file(id)) ?: continue
             count++
             try {
                 checkFullyRead(id, data)
