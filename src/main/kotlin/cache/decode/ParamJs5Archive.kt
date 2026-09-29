@@ -13,7 +13,7 @@ import util.gjstr
 
 class ParamJs5Archive(cache: CacheLibrary) : Js5Archive<ParamType>(cache) {
 
-    override fun archive(): Int = Js5.CONFIG
+    override fun archive(): Int = Js5.JS5_CONFIG.id
 
     override fun group(id: Int): Int = GROUP
 
