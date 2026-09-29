@@ -105,7 +105,7 @@ class ItemRepository(private val cache: CacheLibrary) {
 
     fun load(id: Int): ItemType? = archive.decode(id)
 
-    fun exists(id: Int): Boolean = cache.data(Js5.ITEMS, archive.group(id), archive.file(id)) != null
+    fun exists(id: Int): Boolean = cache.data(Js5.JS5_CONFIG_ITEMS.id, archive.group(id), archive.file(id)) != null
 
     fun nextFreeId(): Int = archive.size()
 
@@ -113,8 +113,8 @@ class ItemRepository(private val cache: CacheLibrary) {
 
     fun save(type: ItemType): Int {
         val data = ItemTypeEncoder.encode(type)
-        cache.put(Js5.ITEMS, archive.group(type.id), archive.file(type.id), data)
-        check(cache.index(Js5.ITEMS)?.update() == true) { "Failed to write item index" }
+        cache.put(Js5.JS5_CONFIG_ITEMS.id, archive.group(type.id), archive.file(type.id), data)
+        check(cache.index(Js5.JS5_CONFIG_ITEMS.id)?.update() == true) { "Failed to write item index" }
         return data.size
     }
 }

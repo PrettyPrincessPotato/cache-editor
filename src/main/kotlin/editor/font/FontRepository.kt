@@ -40,7 +40,7 @@ class FontRepository(private val cache: CacheLibrary) {
 
     fun load(id: Int): FontType? = archive.decode(id)
 
-    fun exists(id: Int): Boolean = cache.data(Js5.JAGEX_FONTS, archive.group(id), archive.file(id)) != null
+    fun exists(id: Int): Boolean = cache.data(Js5.JS5_JAGEX_FONTS.id, archive.group(id), archive.file(id)) != null
 
     fun nextFreeId(): Int = archive.size()
 
@@ -48,8 +48,8 @@ class FontRepository(private val cache: CacheLibrary) {
 
     fun save(type: FontType): Int {
         val data = FontTypeEncoder.encode(type)
-        cache.put(Js5.JAGEX_FONTS, archive.group(type.id), archive.file(type.id), data)
-        check(cache.index(Js5.JAGEX_FONTS)?.update() == true) { "Failed to write font index" }
+        cache.put(Js5.JS5_JAGEX_FONTS.id, archive.group(type.id), archive.file(type.id), data)
+        check(cache.index(Js5.JS5_JAGEX_FONTS.id)?.update() == true) { "Failed to write font index" }
         return data.size
     }
 }

@@ -22,7 +22,7 @@ import util.gjstr
  */
 class FontJs5Archive(cache: CacheLibrary) : Js5Archive<FontType>(cache) {
 
-    override fun archive(): Int = Js5.JAGEX_FONTS
+    override fun archive(): Int = Js5.JS5_JAGEX_FONTS.id
 
     // TODO(font): NPC uses (id ushr 7, id and 0x7f). Fonts may differ — verify against the archive.
     override fun group(id: Int): Int = id ushr 7

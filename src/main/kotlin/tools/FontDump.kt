@@ -15,8 +15,8 @@ fun main(args: Array<String>) {
     val path = args.firstOrNull() ?: "/home/princess/Projects/Void/data/cache"
     val library = CacheLibrary.create(path)
     try {
-        dump(library, Js5.FONTMETRICS, "FONTMETRICS")
-        dump(library, Js5.JAGEX_FONTS, "JAGEX_FONTS")
+        dump(library, Js5.JS5_FONTMETRICS.id, "FONTMETRICS")
+        dump(library, Js5.JS5_JAGEX_FONTS.id, "JAGEX_FONTS")
     } finally {
         library.close()
     }

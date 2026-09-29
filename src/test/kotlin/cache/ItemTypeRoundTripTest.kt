@@ -26,7 +26,7 @@ class ItemTypeRoundTripTest {
         var count = 0
         var identical = 0
         for (id in 0 until size) {
-            val data = cache.data(Js5.ITEMS, archive.group(id), archive.file(id)) ?: continue
+            val data = cache.data(Js5.JS5_CONFIG_ITEMS.id, archive.group(id), archive.file(id)) ?: continue
             count++
             try {
                 checkFullyRead(id, data)
@@ -49,7 +49,7 @@ class ItemTypeRoundTripTest {
 
     @Test
     fun `Modified item decodes back to the same values`() {
-        val id = (0 until archive.size()).first { cache.data(Js5.ITEMS, archive.group(it), archive.file(it)) != null }
+        val id = (0 until archive.size()).first { cache.data(Js5.JS5_CONFIG_ITEMS.id, archive.group(it), archive.file(it)) != null }
         val type = archive.decode(id)!!
         type.name = "Edited"
         type.cost = 1337

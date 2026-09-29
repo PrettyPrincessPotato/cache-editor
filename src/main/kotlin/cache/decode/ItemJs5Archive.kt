@@ -16,7 +16,7 @@ import util.gjstr
 
 class ItemJs5Archive(cache: CacheLibrary) : Js5Archive<ItemType>(cache) {
 
-    override fun archive(): Int = Js5.ITEMS
+    override fun archive(): Int = Js5.JS5_CONFIG_ITEMS.id
 
     override fun group(id: Int): Int = id ushr 8
 
